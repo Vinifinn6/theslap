@@ -1,8 +1,8 @@
 {
-"name": "theslap-clone",
-"version": "0.1.0",
-"private": true,
-"scripts": {
+  "name": "theslap-clone",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
@@ -10,29 +10,29 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"
-},
-"dependencies": {
-    "@auth0/nextjs-auth0": "^3.5.0", // Verifique a versão mais recente
-    "@prisma/client": "^5.14.0", // Verifique a versão mais recente
-    "axios": "^1.7.2", // Verifique a versão mais recente
-    "date-fns": "^3.6.0", // Verifique a versão mais recente
-    "formidable": "^3.5.1", // Verifique a versão mais recente
-    "next": "14.2.3", // Ou a versão que você usou com create-next-app
-    "react": "^18",
-    "react-dom": "^18"
-},
-"devDependencies": {
-    "@types/formidable": "^3.4.5", // Verifique a versão mais recente
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
+  },
+  "dependencies": {
+    "@auth0/nextjs-auth0": "^3.5.0",
+    "@prisma/client": "^5.14.0",
+    "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
+    "formidable": "^3.5.1",
+    "next": "14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/formidable": "^3.4.5",
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "14.2.3",
-    "prisma": "^5.14.0", // Verifique a versão mais recente
-    "ts-node": "^10.9.2", // Verifique a versão mais recente
-    "typescript": "^5"
-},
-"prisma": {
+    "prisma": "^5.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
-}
+  }
 }
