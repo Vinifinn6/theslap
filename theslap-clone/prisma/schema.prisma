@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id // Auth0 user ID (sub)
+  username        String    @unique // Nome de usuário personalizado (@exemplo)
+  name            String?   // Nome real ou apelido
+  profileImageUrl String?   // URL da foto de perfil (do Imgur)
+  createdAt       DateTime  @default(now())
+  posts           Post[]
+  comments        Comment[]
+  sentMessages    Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  // mood            String? // Humor pode ser do usuário ou do post. No TheSlap é mais do post.
+}
+
+model Post {
+  id           Int       @id @default(sequence())
+  userId       String
+  textContent  String?
+  imageUrl1    String?   // URL da imagem 1 do Imgur
+  imageUrl2    String?   // URL da imagem 2 do Imgur
+  mood         String?   // Humor: "Feliz 😃", "Com Raiva 😡", ou texto personalizado
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments     Comment[]
+
+  @@index([userId, createdAt])
+}
+
+model Comment {
+  id           Int      @id @default(sequence())
+  postId       Int
+  userId       String
+  textContent  String   // Comentários devem ter texto
+  imageUrl1    String?  // URL da imagem 1 do Imgur (opcional)
+  imageUrl2    String?  // URL da imagem 2 do Imgur (opcional)
+  createdAt    DateTime @default(now())
+  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Usuário que comentou
+
+  @@index([postId, createdAt])
+  @@index([userId])
+}
+
+model Message {
+  id          Int      @id @default(sequence())
+  senderId    String
+  receiverId  String
+  textContent String?
+  imageUrl1   String?  // URL da imagem 1 do Imgur (opcional)
+  imageUrl2   String?  // URL da imagem 2 do Imgur (opcional)
+  createdAt   DateTime @default(now())
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId, receiverId, createdAt])
+  @@index([receiverId, senderId, createdAt])
+}
